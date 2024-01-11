@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import TodoList from './todoList';
+import TodoListShow from './todoListShow';
 
-function App() {
+interface todoObject{
+  name: string,
+  number: Number,
+  key:boolean
+}
+
+const App=()=> {
+  const [todo, setTodo] = useState<todoObject[]>([])
+  const addList = (data:any) => {
+    setTodo((prevent)=>[...prevent,{number:todo?.length+1,name:data,key:false}])
+  }
+  const removeItems = (id:number) => {
+    const filterData:any = todo?.length > 0 && todo.filter(el => el.number !== id)
+    setTodo(filterData);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <div>
+      <TodoList addToDoList={addList} />
+      <TodoListShow todo={todo} removeItems={removeItems} />
+   </div>
   );
 }
 
